@@ -87,6 +87,22 @@ const Button = styled.button`
 	}
 `
 
+const Reset = styled.button`
+	position: absolute;
+	bottom: 20px;
+	right: 50px;
+	padding: 10px;
+	background-color: #0e2867;
+	color: #ffffff;
+	border: none;
+	font-size: 1.5rem;
+
+	&:hover {
+		cursor: pointer;
+		transform: scale(1.1);
+	}
+`
+
 function App() {
 	const [topic, setTopic] = useState(data[0])
 	const [progress, setProgress] = useState(0)
@@ -106,7 +122,7 @@ function App() {
 			setWord(topic.words[Math.floor(Math.random() * data.length)])
 		}
 
-		localStorage.clear()
+		// localStorage.clear()
 		if (!localStorage.getItem(topic.name)) {
 			localStorage.setItem(
 				topic.name,
@@ -191,6 +207,11 @@ function App() {
 		}
 	}
 
+	const clearStorage = () => {
+		localStorage.clear()
+		window.location.reload()
+	}
+
 	useEffect(() => {
 		const SpeechRecognition =
 			window.SpeechRecognition || window.webkitSpeechRecognition
@@ -200,7 +221,11 @@ function App() {
 		recognition.addEventListener('result', (event) => {
 			let word = event.results[0][0].transcript
 			console.log('result')
-			console.log(word)
+
+			if (word.toLowerCase() === word.word.toLowerCase()) {
+				const audio = new Audio('correct.mp3')
+				audio.play()
+			}
 		})
 
 		recognition.addEventListener('audiostart', () => {
@@ -217,6 +242,8 @@ function App() {
 			if (event.code === 'Space' && !speak) {
 				speak = true
 				recognition.start()
+				const audio = new Audio('correct.mp3')
+				audio.play()
 			}
 		})
 
@@ -249,6 +276,7 @@ function App() {
 			</MainContainer>
 			<Dropdown selectTopic={selectTopic} active={data[0]} data={data} />
 			<ProgressBar progress={progress} />
+			<Reset onClick={clearStorage}>Clear</Reset>
 		</>
 	)
 }
