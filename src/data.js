@@ -50,7 +50,7 @@ export const data = [
 			{ id: 21, word: 'Public', translation: 'Viešas' },
 			{ id: 22, word: 'Bad', translation: 'Blogas' },
 			{ id: 23, word: 'Same', translation: 'Tas pats' },
-			{ id: 24, word: 'Able', translation: 'Galingas' },
+			{ id: 24, word: 'Able', translation: 'Galintis' },
 			{ id: 25, word: 'Open', translation: 'Atviras' },
 			{ id: 26, word: 'Last', translation: 'Paskutinis' },
 			{ id: 27, word: 'Short', translation: 'Trumpas' },
