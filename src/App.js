@@ -218,15 +218,15 @@ function App() {
 		const recognition = new SpeechRecognition()
 		recognition.lang = 'en-US'
 
-		recognition.addEventListener('result', (event) => {
-			let word = event.results[0][0].transcript
-			console.log('result')
+		// recognition.addEventListener('result', (event) => {
+		// 	let word = event.results[0][0].transcript
+		// 	console.log('result')
 
-			if (word.toLowerCase() === word.word.toLowerCase()) {
-				const audio = new Audio('correct.mp3')
-				audio.play()
-			}
-		})
+		// 	if (word.toLowerCase() === word.word.toLowerCase()) {
+		// 		const audio = new Audio('correct.mp3')
+		// 		audio.play()
+		// 	}
+		// })
 
 		recognition.addEventListener('audiostart', () => {
 			console.log('start')
@@ -235,6 +235,18 @@ function App() {
 		recognition.addEventListener('audioend', () => {
 			console.log('end')
 		})
+
+		recognition.onResult = (event) => {
+			const current = event.resultIndex
+
+			const transcript = event.results[current][0].transcript
+			console.log(word)
+
+			if (transcript.toLowerCase() === word.word.toLowerCase()) {
+				const audio = new Audio('correct.mp3')
+				audio.play()
+			}
+		}
 
 		let speak = false
 
