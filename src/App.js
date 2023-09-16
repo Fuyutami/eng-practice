@@ -242,8 +242,6 @@ function App() {
 			if (event.code === 'Space' && !speak) {
 				speak = true
 				recognition.start()
-				const audio = new Audio('correct.mp3')
-				audio.play()
 			}
 		})
 
