@@ -1,4 +1,7 @@
 import { useEffect, useState } from 'react'
+import SpeechRecognition, {
+	useSpeechRecognition,
+} from 'react-speech-recognition'
 import styled from 'styled-components'
 
 import './App.css'
@@ -7,6 +10,7 @@ import Dropdown from './components/Dropdown'
 import { data, testData } from './data'
 import ProgressBar from './components/ProgressBar'
 import SpeakBubble from './components/SpeakBubble'
+import { IconMicOff, IconMicOn } from './other/vectors'
 
 const MainContainer = styled.div`
 	display: flex;
@@ -83,7 +87,7 @@ const Button = styled.button`
 	}
 
 	&:active {
-		transform: scale(0.9);
+		/* transform: scale(0.9); */
 	}
 `
 
@@ -104,20 +108,25 @@ const Reset = styled.button`
 `
 
 function App() {
+	const {
+		transcript,
+		resetTranscript,
+		listening,
+		browserSupportsSpeechRecognition,
+	} = useSpeechRecognition()
 	const [topic, setTopic] = useState(data[0])
 	const [progress, setProgress] = useState(0)
 	const [speaking, setSpeaking] = useState(false)
-
 	const [word, setWord] = useState(
 		topic.words[Math.floor(Math.random() * data.length)]
 	)
+	const [input, setInput] = useState('')
 
 	const selectTopic = (topic) => {
 		setTopic(topic)
 	}
 
 	useEffect(() => {
-		console.log('topic changed')
 		if (topic) {
 			setWord(topic.words[Math.floor(Math.random() * data.length)])
 		}
@@ -135,7 +144,7 @@ function App() {
 		setProgress((progress / topic.words.length) * 100)
 	}, [topic])
 
-	const speakHandler = () => {
+	const listenHandler = () => {
 		if ('speechSynthesis' in window) {
 			const synthesis = window.speechSynthesis
 			const utterance = new SpeechSynthesisUtterance(word.word)
@@ -159,6 +168,33 @@ function App() {
 		setWord(selectRandomWord())
 	}
 
+	const speakHandler = () => {
+		if (browserSupportsSpeechRecognition) {
+			if (!speaking) {
+				setSpeaking(true)
+				console.log('speaking')
+				SpeechRecognition.startListening({ continuous: true })
+			} else {
+				setSpeaking(false)
+				console.log('not speaking')
+				SpeechRecognition.stopListening()
+				console.log(transcript)
+
+				// evaluate transcription
+				if (transcript === word.word) {
+					console.log('correct')
+					const audio = new Audio('correct.mp3')
+					audio.play()
+				} else {
+					console.log('wrong')
+					const audio = new Audio('wrong.mp3')
+					audio.play()
+				}
+
+				resetTranscript()
+			}
+		}
+	}
 	const cardClickHandler = () => {
 		console.log('card clicked')
 
@@ -183,24 +219,26 @@ function App() {
 			return !easy[index]
 		})
 
+		const constant = 0.9
+		const percentage = (easyWords.length / topic.words.length) * 100
+
+		const alpha = constant + (100 - percentage) / 1000
+
 		while (true) {
 			const random = Math.random()
-			if (hardWords.length > 0 && random < 0.9) {
+			if (hardWords.length > 0 && random < alpha) {
 				const newWord = hardWords[Math.floor(Math.random() * hardWords.length)]
 				if (newWord.id !== word.id) {
-					console.log('hard')
 					return newWord
 				}
 			} else if (easyWords.length > 0) {
 				const newWord = easyWords[Math.floor(Math.random() * easyWords.length)]
 				if (newWord.id !== word.id) {
-					console.log('easy')
 					return newWord
 				}
 			} else {
 				const newWord = topic.words[Math.floor(Math.random() * data.length)]
 				if (newWord.id !== word.id) {
-					console.log('random')
 					return newWord
 				}
 			}
@@ -212,59 +250,6 @@ function App() {
 		window.location.reload()
 	}
 
-	useEffect(() => {
-		const SpeechRecognition =
-			window.SpeechRecognition || window.webkitSpeechRecognition
-		const recognition = new SpeechRecognition()
-		recognition.lang = 'en-US'
-
-		// recognition.addEventListener('result', (event) => {
-		// 	let word = event.results[0][0].transcript
-		// 	console.log('result')
-
-		// 	if (word.toLowerCase() === word.word.toLowerCase()) {
-		// 		const audio = new Audio('correct.mp3')
-		// 		audio.play()
-		// 	}
-		// })
-
-		recognition.addEventListener('audiostart', () => {
-			console.log('start')
-		})
-
-		recognition.addEventListener('audioend', () => {
-			console.log('end')
-		})
-
-		recognition.onResult = (event) => {
-			const current = event.resultIndex
-
-			const transcript = event.results[current][0].transcript
-			console.log(word)
-
-			if (transcript.toLowerCase() === word.word.toLowerCase()) {
-				const audio = new Audio('correct.mp3')
-				audio.play()
-			}
-		}
-
-		let speak = false
-
-		document.addEventListener('keydown', (event) => {
-			if (event.code === 'Space' && !speak) {
-				speak = true
-				recognition.start()
-			}
-		})
-
-		document.addEventListener('keyup', (event) => {
-			if (event.code === 'Space') {
-				// stop recognition
-				speak = false
-				recognition.stop()
-			}
-		})
-	}, [])
 	return (
 		<>
 			<MainContainer>
@@ -275,16 +260,16 @@ function App() {
 					</FlipCardInner>
 				</FlipCard>
 				<Controls>
-					<Button onClick={speakHandler}>Listen</Button>
+					<Button onClick={listenHandler}>Listen</Button>
 					<Button onClick={nextHandler}>Next</Button>
 					<Button onClick={easyHandler}>Easy</Button>
-					{/* <Button>
-						Say
-						<SpeakBubble />
-					</Button> */}
+					<Button onClick={speakHandler}>
+						{speaking ? <IconMicOn /> : <IconMicOff />}
+						{/* <SpeakBubble /> */}
+					</Button>
 				</Controls>
 			</MainContainer>
-			<Dropdown selectTopic={selectTopic} active={data[0]} data={data} />
+			<Dropdown selectTopic={selectTopic} active={topic} data={data} />
 			<ProgressBar progress={progress} />
 			<Reset onClick={clearStorage}>Clear</Reset>
 		</>
