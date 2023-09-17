@@ -170,6 +170,7 @@ function App() {
 
 	const speakHandler = () => {
 		if (browserSupportsSpeechRecognition) {
+			resetTranscript()
 			if (!speaking) {
 				setSpeaking(true)
 				console.log('speaking')
@@ -181,7 +182,14 @@ function App() {
 				console.log(transcript)
 
 				// evaluate transcription
-				if (transcript === word.word) {
+				let phrase = word.word.toLowerCase()
+				if (phrase[phrase.length - 1] === '.') {
+					phrase = phrase.slice(0, -1)
+				}
+
+				let input = transcript.toLowerCase()
+
+				if (input === phrase) {
 					console.log('correct')
 					const audio = new Audio('correct.mp3')
 					audio.play()
@@ -190,8 +198,6 @@ function App() {
 					const audio = new Audio('wrong.mp3')
 					audio.play()
 				}
-
-				resetTranscript()
 			}
 		}
 	}
