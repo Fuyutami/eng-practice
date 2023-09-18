@@ -10,7 +10,12 @@ import Dropdown from './components/Dropdown'
 import { data, testData } from './data'
 import ProgressBar from './components/ProgressBar'
 import SpeakBubble from './components/SpeakBubble'
-import { IconMicOff, IconMicOn } from './other/vectors'
+import {
+	IconEyeClosed,
+	IconEyeOpen,
+	IconMicOff,
+	IconMicOn,
+} from './other/vectors'
 
 const MainContainer = styled.div`
 	display: flex;
@@ -117,6 +122,7 @@ function App() {
 	const [topic, setTopic] = useState(data[0])
 	const [progress, setProgress] = useState(0)
 	const [speaking, setSpeaking] = useState(false)
+	const [hidden, setHidden] = useState(false)
 	const [word, setWord] = useState(
 		topic.words[Math.floor(Math.random() * data.length)]
 	)
@@ -215,6 +221,14 @@ function App() {
 		}
 	}
 
+	const hideHandler = () => {
+		if (hidden) {
+			setHidden(false)
+		} else {
+			setHidden(true)
+		}
+	}
+
 	const selectRandomWord = () => {
 		const easy = JSON.parse(localStorage.getItem(topic.name))
 
@@ -261,7 +275,7 @@ function App() {
 			<MainContainer>
 				<FlipCard onClick={cardClickHandler}>
 					<FlipCardInner className="FlipCardInner">
-						<FlipCardFront>{word.word}</FlipCardFront>
+						<FlipCardFront>{hidden ? '🐺' : word.word}</FlipCardFront>
 						<FlipCardBack>{word.translation}</FlipCardBack>
 					</FlipCardInner>
 				</FlipCard>
@@ -269,6 +283,9 @@ function App() {
 					<Button onClick={listenHandler}>Listen</Button>
 					<Button onClick={nextHandler}>Next</Button>
 					<Button onClick={easyHandler}>Easy</Button>
+					<Button onClick={hideHandler}>
+						{hidden ? <IconEyeClosed /> : <IconEyeOpen />}
+					</Button>
 					<Button onClick={speakHandler}>
 						{speaking ? <IconMicOn /> : <IconMicOff />}
 						{/* <SpeakBubble /> */}
