@@ -96,10 +96,23 @@ const Button = styled.button`
 	}
 `
 
-const Reset = styled.button`
+const AdvancedControls = styled.div`
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	height: 70px;
 	position: absolute;
 	bottom: 20px;
 	right: 50px;
+`
+
+const Slider = styled.div`
+	& > input {
+		cursor: pointer;
+	}
+`
+
+const Reset = styled.button`
 	padding: 10px;
 	background-color: #0e2867;
 	color: #ffffff;
@@ -122,6 +135,7 @@ function App() {
 	const [topic, setTopic] = useState(data[0])
 	const [progress, setProgress] = useState(0)
 	const [speaking, setSpeaking] = useState(false)
+	const [rate, setRate] = useState(0.7)
 	const [hidden, setHidden] = useState(false)
 	const [word, setWord] = useState(
 		topic.words[Math.floor(Math.random() * data.length)]
@@ -156,7 +170,7 @@ function App() {
 			const utterance = new SpeechSynthesisUtterance(word.word)
 
 			utterance.voice = synthesis.getVoices()[0] // Set a specific voice
-			utterance.rate = 0.7 // Set the speech rate
+			utterance.rate = rate // Set the speech rate
 			synthesis.speak(utterance)
 		}
 	}
@@ -219,6 +233,11 @@ function App() {
 			document.querySelector('.FlipCardInner').style.transform =
 				'rotateY(-180deg)'
 		}
+	}
+
+	const sliderChangeHandler = (event) => {
+		const newRate = parseFloat(event.target.value)
+		setRate(newRate)
 	}
 
 	const hideHandler = () => {
@@ -294,7 +313,21 @@ function App() {
 			</MainContainer>
 			<Dropdown selectTopic={selectTopic} active={topic} data={data} />
 			<ProgressBar progress={progress} />
-			<Reset onClick={clearStorage}>Clear</Reset>
+			<AdvancedControls>
+				<Slider>
+					<label htmlFor="rateSlider">Speed: {rate}</label>
+					<input
+						type="range"
+						id="rateSlider"
+						min={0}
+						max={1}
+						step={0.1}
+						value={rate}
+						onChange={sliderChangeHandler}
+					/>
+				</Slider>
+				<Reset onClick={clearStorage}>Clear</Reset>
+			</AdvancedControls>
 		</>
 	)
 }
