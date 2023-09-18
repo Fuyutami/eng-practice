@@ -183,13 +183,41 @@ export const data = [
 
 	{
 		id: 4,
+		name: 'prepositions (prielinksniai)',
+		words: [
+			{ id: 0, word: 'In the city', translation: 'Mieste' },
+			{ id: 1, word: 'On the table', translation: 'Ant stalo' },
+			{ id: 2, word: 'At school', translation: 'Mokykloje' },
+			{ id: 3, word: 'By the river', translation: 'Prie upės' },
+			{ id: 4, word: 'Under the tree', translation: 'Po medžiu' },
+			{ id: 5, word: 'With friends', translation: 'Su draugais' },
+			{ id: 6, word: 'From nature', translation: 'Iš gamtos' },
+			{ id: 7, word: 'Into the house', translation: 'Į namus' },
+			{ id: 8, word: 'Between two cities', translation: 'Tarp dviejų miestų' },
+			{ id: 9, word: 'Upon arrival', translation: 'Atvykimo metu' },
+			{ id: 10, word: 'Beside the lake', translation: 'Šalia ežero' },
+			{ id: 11, word: 'Above the clouds', translation: 'Virš debesų' },
+			{ id: 12, word: 'Beneath the surface', translation: 'Po paviršiumi' },
+			{ id: 13, word: 'With a smile', translation: 'Su šypsena' },
+			{ id: 14, word: 'After the movie', translation: 'Po filmo' },
+			{ id: 15, word: 'Before the meeting', translation: 'Prieš susitikimą' },
+			{ id: 16, word: 'During the class', translation: 'Pamokoje' },
+			{ id: 17, word: 'Behind the curtain', translation: 'Už uždangos' },
+			{ id: 18, word: 'Without hesitation', translation: 'Be dvejojimo' },
+			{ id: 19, word: 'Among the flowers', translation: 'Tarp gėlių' },
+			{ id: 20, word: 'Near the beach', translation: 'Šalia paplūdimio' },
+		],
+	},
+
+	{
+		id: 5,
 		name: 'sentences (sakiniai)',
 		words: [
 			{ id: 0, word: 'I have a book.', translation: 'Aš turiu knygą.' },
 			{
 				id: 1,
 				word: 'She knows English.',
-				translation: 'Ji žino anglų kalbą.',
+				translation: 'Ji moka anglų kalbą.',
 			},
 			{ id: 2, word: 'We are friends.', translation: 'Mes esame draugai.' },
 			{ id: 3, word: 'He works in a city.', translation: 'Jis dirba mieste.' },
