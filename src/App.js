@@ -100,10 +100,19 @@ const AdvancedControls = styled.div`
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
-	height: 70px;
+	height: 150px;
 	position: absolute;
 	bottom: 20px;
 	right: 50px;
+`
+
+const SpeakDisplay = styled.div`
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	height: 40px;
+	background-color: grey;
 `
 
 const Slider = styled.div`
@@ -208,14 +217,17 @@ function App() {
 				}
 
 				let input = transcript.toLowerCase()
+				const speakDisplay = document.getElementById('speakDisplay')
 
 				if (input === phrase) {
 					console.log('correct')
 					const audio = new Audio('correct.mp3')
+					speakDisplay.style.backgroundColor = '#4caf50'
 					audio.play()
 				} else {
 					console.log('wrong')
 					const audio = new Audio('wrong.mp3')
+					speakDisplay.style.backgroundColor = '#f43e3e'
 					audio.play()
 				}
 			}
@@ -314,6 +326,7 @@ function App() {
 			<Dropdown selectTopic={selectTopic} active={topic} data={data} />
 			<ProgressBar progress={progress} />
 			<AdvancedControls>
+				<SpeakDisplay id="speakDisplay">{transcript}</SpeakDisplay>
 				<Slider>
 					<label htmlFor="rateSlider">Speed: {rate}</label>
 					<input
