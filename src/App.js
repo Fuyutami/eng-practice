@@ -227,9 +227,7 @@ function App() {
 					audio.play()
 				} else {
 					console.log('wrong')
-					const audio = new Audio('wrong.mp3')
 					speakDisplay.style.backgroundColor = '#f43e3e'
-					audio.play()
 				}
 			}
 		}
