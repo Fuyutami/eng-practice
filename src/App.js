@@ -219,6 +219,7 @@ function App() {
 				let input = transcript.toLowerCase()
 				const speakDisplay = document.getElementById('speakDisplay')
 
+				speakDisplay.innerHTML = input
 				if (input === phrase) {
 					console.log('correct')
 					const audio = new Audio('correct.mp3')
@@ -326,7 +327,7 @@ function App() {
 			<Dropdown selectTopic={selectTopic} active={topic} data={data} />
 			<ProgressBar progress={progress} />
 			<AdvancedControls>
-				<SpeakDisplay id="speakDisplay">{transcript}</SpeakDisplay>
+				<SpeakDisplay id="speakDisplay"></SpeakDisplay>
 				<Slider>
 					<label htmlFor="rateSlider">Speed: {rate}</label>
 					<input
