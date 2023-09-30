@@ -134,6 +134,13 @@ const Reset = styled.button`
 	}
 `
 
+const Attribution = styled.p`
+	position: absolute;
+	bottom: 10px;
+	left: 50%;
+	transform: translateX(-50%);
+`
+
 function App() {
 	const {
 		transcript,
@@ -352,6 +359,9 @@ function App() {
 				</Slider>
 				<Reset onClick={clearStorage}>Clear</Reset>
 			</AdvancedControls>
+			<Attribution>
+				using voices from <a href="https://www.elevenlabs.io">elevenlabs.io</a>
+			</Attribution>
 		</>
 	)
 }
