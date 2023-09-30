@@ -174,6 +174,15 @@ function App() {
 	}, [topic])
 
 	const listenHandler = () => {
+		if (topic.recorded) {
+			const theme = topic.id
+			const phrase = word.id
+
+			const audio = new Audio(`recordings/${theme}/${phrase}.mp3`)
+			audio.play()
+			return
+		}
+
 		if ('speechSynthesis' in window) {
 			const synthesis = window.speechSynthesis
 			const utterance = new SpeechSynthesisUtterance(word.word)

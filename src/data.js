@@ -233,4 +233,52 @@ export const data = [
 			{ id: 9, word: 'He has a problem.', translation: 'Jis turi problemą.' },
 		],
 	},
+
+	{
+		id: 6,
+		name: 'questions (klausimai)',
+		recorded: true,
+		words: [
+			{
+				id: 0,
+				word: 'Who is your best friend?',
+				translation: 'Kas yra tavo geriausias draugas?',
+			},
+			{
+				id: 1,
+				word: 'What is your favorite color?',
+				translation: 'Kokia yra tavo mėgstamiausia spalva?',
+			},
+			{
+				id: 2,
+				word: 'When is your birthday?',
+				translation: 'Kada yra tavo gimtadienis?',
+			},
+			{
+				id: 3,
+				word: 'Where is the nearest grocery store?',
+				translation: 'Kur yra artimiausia maisto parduotuvė?',
+			},
+			{
+				id: 4,
+				word: 'Why are you so tired today?',
+				translation: 'Kodėl tu šiandien toks pavargęs?',
+			},
+			{
+				id: 5,
+				word: 'How are you feeling today?',
+				translation: 'Kaip tu šiandien jautiesi?',
+			},
+			{
+				id: 6,
+				word: 'Which movie do you want to watch?',
+				translation: 'Kurį filmą norėtum žiūrėti?',
+			},
+			{
+				id: 7,
+				word: 'Whose phone is this?',
+				translation: 'Kieno tai telefonas?',
+			},
+		],
+	},
 ]
