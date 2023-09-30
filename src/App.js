@@ -221,7 +221,10 @@ function App() {
 
 				// evaluate transcription
 				let phrase = word.word.toLowerCase()
-				if (phrase[phrase.length - 1] === '.') {
+				if (
+					phrase[phrase.length - 1] === '.' ||
+					phrase[phrase.length - 1] === '?'
+				) {
 					phrase = phrase.slice(0, -1)
 				}
 
