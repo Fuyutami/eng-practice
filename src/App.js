@@ -214,15 +214,18 @@ function App() {
 	}
 
 	const speakHandler = () => {
+		const micButton = document.getElementById('micBtn')
 		if (browserSupportsSpeechRecognition) {
 			resetTranscript()
 			if (!speaking) {
 				setSpeaking(true)
 				console.log('speaking')
+				micButton.style.backgroundColor = '#4caf50'
 				SpeechRecognition.startListening({ continuous: true })
 			} else {
 				setSpeaking(false)
 				console.log('not speaking')
+				micButton.style.backgroundColor = '#0e2867'
 				SpeechRecognition.stopListening()
 				console.log(transcript)
 
@@ -335,7 +338,7 @@ function App() {
 					<Button onClick={hideHandler}>
 						{hidden ? <IconEyeClosed /> : <IconEyeOpen />}
 					</Button>
-					<Button onClick={speakHandler}>
+					<Button onClick={speakHandler} id="micBtn">
 						{speaking ? <IconMicOn /> : <IconMicOff />}
 						{/* <SpeakBubble /> */}
 					</Button>
